@@ -32,21 +32,38 @@ https://cloud.spring.io/spring-cloud-static/Finchley.SR2/single/spring-cloud.htm
 	</dependency>
 	
 第三步：添加zipkin的url地址
-************************************************
-这里如果是zipkin是在本地，就不用设置，因为默认就是：
-@ConfigurationProperties("spring.zipkin")
-public class ZipkinProperties {
-	/**
-	 *  URL of the zipkin query server instance. You can also provide
-	 *  the service id of the Zipkin server if Zipkin's registered in
-	 *  service discovery (e.g. http://zipkinserver/)
-	 */
-	private String baseUrl = "http://localhost:9411/";
-	
-如果不是本地的就设置：
-spring:
-  zipkin:
-    base-url: http://192.168.184.132:9411/
+	************************************************
+	这里如果是zipkin是在本地，就不用设置，因为默认就是：
+	@ConfigurationProperties("spring.zipkin")
+	public class ZipkinProperties {
+		/**
+		 *  URL of the zipkin query server instance. You can also provide
+		 *  the service id of the Zipkin server if Zipkin's registered in
+		 *  service discovery (e.g. http://zipkinserver/)
+		 */
+		private String baseUrl = "http://localhost:9411/";
+		
+	如果不是本地的就设置：
+	spring:
+	  zipkin:
+		base-url: http://192.168.184.132:9411/
+		
+第四步：拓展	
+		1、同类产品
+			鹰眼（EagleEye）
+			CAT
+			twitter开源zipkin，结合sleuth
+			Pinpoint，运用JavaAgent字节码增强技术
+			StackDriver Trace (Google)
+			
+		2、知识拓展：OpenTracing
+		OpenTracing 已进入 CNCF，正在为全球的分布式追踪，提供统一的概念和数据标准。 
+		通过提供平台无关、厂商无关的 API，使得开发人员能够方便的添加（或更换）追踪系统的实现。
+
+		推荐阅读：
+			http://blog.daocloud.io/cncf-3/
+			https://www.zhihu.com/question/27994350
+			https://yq.aliyun.com/articles/514488?utm_content=m_43347
 	
 
 
