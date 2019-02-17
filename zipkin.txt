@@ -1,0 +1,28 @@
+zipkin介绍
+---------------------------
+Zipkin is a distributed tracing system. 
+It helps gather timing data needed to troubleshoot 
+latency problems in microservice architectures. 
+It manages both the collection and lookup of this data.
+Zipkin’s design is based on the Google Dapper paper.
+
+第一步：下载zipkin
+---------------------------
+在chrome地址栏输入：https://zipkin.io/pages/quickstart.html
+在该页面找到Java下载最新的版本，点击last release。
+
+第二步：运行zipkin
+---------------------------
+在控制台运行命令：
+java -jar zipkin-server-x.y.z-exec.jar
+
+在后台运行：
+java -jar zipkin.jar > zipkin.log 2>& 1 & 
+
+第三步：检查是否启动成功
+---------------------------
+这里zipkin的默认端口是：9411可以在运行时候查端口
+在chrome地址栏输入：http://192.168.184.132:9411/zipkin/
+
+
+
