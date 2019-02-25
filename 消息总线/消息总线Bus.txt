@@ -1,0 +1,38 @@
+						消息总线Bus
+--------------------------------------------------------------
+这里的消息
+第一步：添加依赖
+	<!-- 消息总线依赖 -->
+	<dependency>
+		<groupId>org.springframework.cloud</groupId>
+		<artifactId>spring-cloud-starter-bus-amqp</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-actuator</artifactId>
+	</dependency>
+	
+第二步：添加配置在boostrap.yml文件中
+#服务的名称(安装官网介绍只需要暴露/actuator/bus-refresh和/actuator/bus-env)
+	spring:
+	  #配置rabbitmq的用户名密码及主机名
+	  rabbitmq:
+		host: localhost
+		port: 5672
+		username: guest
+		password: guest
+		
+	#暴露全部的监控信息
+	management:
+	  endpoints:
+		web:
+		  exposure:
+			include: "*"
+
+第三步：在需要刷新配置的地方添加注解
+	@RefreshScope
+	
+第四步：在更新配置之后使用下面的连接地址访问触发web的钩子函数
+	http://localhost:8772/actuator/bus-refresh或
+	http://localhost:8772//actuator/refresh
+
