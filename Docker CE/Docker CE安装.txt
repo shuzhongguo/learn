@@ -1,0 +1,24 @@
+		   CentOS Docker 安装
+--------------------------------------------
+1.安装要求centos的内核必须是大于等于3.10以上
+	查看内核命令：uname -r 
+2.使用yum安装Docker
+	1.安装一些必要的系统工具：
+	yum install -y yum-utils device-mapper-persistent-data lvm2
+	
+	2.添加软件源信息：
+	yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
+	
+	3.更新 yum 缓存：
+	yum makecache fast
+	
+	4.安装 Docker-ce：
+	yum -y install docker-ce
+	
+	5.启动 Docker 后台服务:
+	systemctl start docker
+	
+	6.测试运行 hello-world:
+	docker run hello-world
+3.参考链接地址：http://www.runoob.com/docker/centos-docker-install.html
+	
