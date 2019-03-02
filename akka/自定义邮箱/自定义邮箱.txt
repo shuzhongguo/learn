@@ -76,6 +76,8 @@
 	从上面的代码中可知我们要实现def create抽象方法
 	
 4.在application.conf添加配置
+
+5.附带的案例
 	
 	
 
