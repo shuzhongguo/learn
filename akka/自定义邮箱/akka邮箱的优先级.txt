@@ -1,0 +1,35 @@
+						akka信息的优先级
+---------------------------------------------------
+    在actor处理信息的时候，如果没有定义信息的优先级，信息就是
+队列的先后来处理。如果定义了信息的优先级，那么可能某些信息
+会在提前处理或某些信息会被延后处理。
+下面做一些笔记怎么去定义信息的优先级。
+
+1.要实现邮箱的优先级这里在官网可以查看到有四种优先级如下：
+	BoundedPriorityMailbox
+	BoundedStablePriorityMailbox
+	UnboundedPriorityMailbox
+	UnboundedStablePriorityMailbox
+
+2.这里使用的是UnboundedPriorityMailbox下面看一下它的源码
+	/**
+	 * UnboundedPriorityMailbox is an unbounded mailbox that allows for prioritization of its contents.
+	 * Extend this class and provide the Comparator in the constructor.
+	 */
+	class UnboundedPriorityMailbox(val cmp: Comparator[Envelope], val initialCapacity: Int)
+	  extends MailboxType with ProducesMessageQueue[UnboundedPriorityMailbox.MessageQueue] {
+	  def this(cmp: Comparator[Envelope]) = this(cmp, 11)
+	  final override def create(owner: Option[ActorRef], system: Option[ActorSystem]): MessageQueue =
+		new UnboundedPriorityMailbox.MessageQueue(initialCapacity, cmp)
+	}
+	
+3.再来看一下PriorityGenerator类
+	abstract class PriorityGenerator extends Comparator[Envelope]
+	从这里可以看出UnboundedPriorityMailbox其中一个参数是Comparator[Envelope]
+	而PriorityGenerator刚好继承了Comparator[Envelope]，但是PriorityGenerator是一个
+	抽象类。
+	API官网下面有这么一句话
+	A PriorityGenerator is a convenience API to create a Comparator that orders the messages 
+	of a PriorityDispatcher
+4.贴出案例代码PriorityMailBox.scala
+
