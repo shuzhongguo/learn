@@ -77,7 +77,7 @@
 	
 4.在application.conf添加配置
 
-5.附带的案例
+5.附带的案例CustomMailbox.scala
 	
 	
 
