@@ -1,0 +1,85 @@
+								ElasticSearch集群
+-------------------------------------------------------------------------------------------
+	查看集群的健康状态的API:To check the cluster health, we will be using the _cat API.
+		>>	GET /_cat/health?v
+	集群的健康状态的有：绿，黄，红三种状态，下面对着三种状态的解释
+		>>	绿---表示集群是健康的(所有的功能正常)
+		>>	黄---表示所有的数据都是可获得，但是可能某些数据的副本没有分配(所有的功能正常)
+		>>	红---表示某些数据不可获得不知什么原因(部分功能可以用)。、
+	Whenever we ask for the cluster health, we either get green, yellow, or red.
+		Green - everything is good (cluster is fully functional)
+		Yellow - all data is available but some replicas are not yet allocated (cluster is fully functional)
+		Red - some data is not available for whatever reason (cluster is partially functional)
+		Note: When a cluster is red, it will continue to serve search requests from the available shards but
+			  you will likely need to fix it ASAP since there are unassigned shards.
+	
+	获取集群节点的相关信息
+		>>	GET /_cat/nodes?v
+		
+	获取所有的索引列表的API
+		>>	GET /_cat/indices?v
+		
+	创建索引的API
+		>>	PUT /customer?pretty
+			这里创建了名为customer的索引。
+			后面的单词是pretty是漂亮的人或东西，这里是漂亮的打印也就是JSON格式的打印信息。
+	
+	删除索引的API
+		>>	DELETE /customer?pretty
+			这里是删除了名为customer的索引，同样这里pretty的是JSON格式的美观打印。
+		
+	总结访问模式的格式
+		>>	<HTTP Verb> /<Index>/<Type>/<ID>  
+	
+	
+	
+								修改文档数据		
+-------------------------------------------------------------------------------------------
+	更新字段的值
+		>>	POST /customer/_doc/1/_update?pretty
+			{
+			  "doc": { "name": "Jane Doe" }
+			}
+			这里是更新了name字段的值了
+			
+			
+	更新字段(添加一个字段)
+		>>	POST /customer/_doc/1/_update?pretty
+			{
+			  "doc": { "name": "Jane Doe", "age": 20 }
+			}
+			这里添加age字段，值为20
+	更新字段值通过脚本
+		>>	POST /customer/_doc/1/_update?pretty
+			{
+			  "script" : "ctx._source.age += 5"
+			}
+			这里是通过简单的脚本来更新字段值的。
+			在这个案例中ctx在这个案例中ctx._source引用了当前的资源文档。
+	这里只是简单记录一下更新值的操作，还有其他很多操作的都更新文档
+	
+								删除文档数据		
+-------------------------------------------------------------------------------------------
+	删除文档
+		>>	DELETE /customer/_doc/2?pretty
+			删除文档的数据比较简单，删除ID为2的文档。pretty就不用解释了。
+			
+											批量处理数据		
+-------------------------------------------------------------------------------------------
+	批量操作的API是"_bulk",这是比较重要的API,因为它提供了一种非常有效的机制，
+	可以以尽可能少的网络往返速度尽可能快速地执行多个操作。
+	
+	批量操作1
+		>>	POST /customer/_doc/_bulk?pretty
+			{"index":{"_id":"1"}}
+			{"name": "John Doe" }
+			{"index":{"_id":"2"}}
+			{"name": "Jane Doe" }
+			这里调用索引customer的的两个文档。
+			
+	批量操作2
+		>>	POST /customer/_doc/_bulk?pretty
+			{"update":{"_id":"1"}}
+			{"doc": { "name": "John Doe becomes Jane Doe" } }
+			{"delete":{"_id":"2"}}
+			这个批量操作是更新ID为1的，同时删除了ID为2的。
